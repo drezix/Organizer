@@ -43,3 +43,19 @@ exports.delete = async (req, res) => {
     return res.status(500).json({ message: 'Error deleting process', error: error.message });
   }
 }
+
+exports.update = async (req, res) => {
+  try {
+    console.log('req.body:', req.body);
+    const { id } = req.params;
+    const processData = req.body;
+
+    const updatedProcess = await archiveServices.updateProcess(id, processData);
+
+    return res.status(200).json(updatedProcess);
+  } 
+  catch (error) {
+    console.error('Error updating process:', error);
+    return res.status(500).json({ message: 'Error updating process', error: error.message });
+  }
+}

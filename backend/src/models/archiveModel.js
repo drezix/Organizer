@@ -10,6 +10,14 @@ const archiveSchema = new moongose.Schema({
     type: String,
     required: true
   },
+  Descricao: {
+    type: String,
+    required: true
+  },
+  LocalGuardado: {
+    type: String,
+    required: true
+  },
   Area: {
     type: String,
     required: true

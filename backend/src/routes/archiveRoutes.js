@@ -5,5 +5,6 @@ const router = express.Router();
 router.post('/insert', archiveController.insert);
 router.get('/get/:Number', archiveController.get);
 router.delete('/delete/:Number', archiveController.delete);
+router.put('/update/:id', archiveController.update);
 
 module.exports = router;
