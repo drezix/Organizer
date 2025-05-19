@@ -7,154 +7,111 @@
 
 body {
   font-family: 'Roboto', sans-serif;
-  background-color: #F5F6F8; /* Cor de fundo suave */
-  color: #333; /* Texto escuro */
+  background-color: #F5F6F8;
+  color: #333;
   line-height: 1.6;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  padding: 20px;
 }
 
+/* Container geral */
+body > * {
+  width: 100%;
+  max-width: 500px;
+}
+
+/* Título */
 h1 {
   font-size: 2rem;
-  color: #2C3E50; /* Tom de cinza escuro */
-  margin-bottom: 20px;
+  color: #2C3E50;
+  margin-bottom: 24px;
+  text-align: center;
+  border-bottom: 1px solid #c69c58;
+  padding-bottom: 10px;
 }
 
+/* Botões */
 button {
-  background-color: #4C6EF5; /* Azul suave */
+  background-color: #c69c58;
   color: #fff;
   font-size: 1rem;
   padding: 12px 20px;
-  border: none;
+  border: 1px solid #b48a4d;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: block;
+  margin: 16px auto 0 auto;
 }
 
 button:hover {
-  background-color: #3A56E8; /* Azul mais escuro */
-}
-
-#formularioInsert {
-  background-color: #fff; /* Fundo branco */
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 400px;
-  margin-top: 20px;
-}
-
-input {
-  width: 100%;
-  padding: 12px;
-  margin: 8px 0;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-  font-size: 1rem;
-  background-color: #f9f9f9;
-  transition: border 0.3s ease;
-}
-
-input:focus {
-  border: 1px solid #4C6EF5; /* Foco com borda azul */
-  outline: none;
+  background-color: #b48a4d;
+  transform: scale(1.02);
 }
 
 button:active {
-  background-color: #3554D1; /* Azul ainda mais escuro */
+  background-color: #a37841;
+  transform: scale(0.98);
 }
 
-/* Adicionando um pequeno efeito de transição para o formulário */
-#formularioInsert input {
-  transition: transform 0.3s ease;
-}
-
-#formularioInsert input:focus {
-  transform: scale(1.02);
-}
-
-#formularioGet input {
-  transition: transform 0.3s ease;
-}
-
-#formularioGet input:focus {
-  transform: scale(1.02);
-}
-
-@keyframes fadeSlideDown {
-  0% {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-#formularioInsert.show {
-  display: block;
-  animation: fadeSlideDown 0.4s ease forwards;
-}
-
-#formularioInsert.hidden {
-  display: block;
-  animation: fadeSlideDown 0.2s ease reverse forwards;
-}
-
-#formularioInsert {
+/* Formulários */
+#formularioInsert,
+#formularioGet,
+#formularioUpdate {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  border: 1px solid #c69c58;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
   opacity: 0;
   transform: translateY(-10px);
   pointer-events: none;
   transition: all 0.3s ease;
-  display: block; /* mantém no DOM */
 }
 
-#formularioInsert.show {
+#formularioInsert.show,
+#formularioGet.show,
+#formularioUpdate.show {
   opacity: 1;
   transform: translateY(0);
   pointer-events: all;
 }
 
-#formularioInsert.hidden {
+#formularioInsert.hidden,
+#formularioGet.hidden,
+#formularioUpdate.hidden {
   opacity: 0;
   transform: translateY(-10px);
   pointer-events: none;
 }
 
-#formularioGet.show {
-  display: block;
-  animation: fadeSlideDown 0.4s ease forwards;
+/* Inputs */
+input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #c69c58;
+  font-size: 1rem;
+  background-color: #f9f9f9;
+  transition: border 0.3s ease, transform 0.2s ease;
 }
 
-#formularioGet {
-  opacity: 0;
-  transform: translateY(-10px);
-  pointer-events: none;
-  transition: all 0.3s ease;
-  display: block; /* mantém no DOM */
-}
-
-#formularioGet.show {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: all;
-}
-
-#formularioGet.hidden {
-  opacity: 0;
-  transform: translateY(-10px);
-  pointer-events: none;
+input:focus {
+  border: 1px solid #c69c58;
+  outline: none;
+  transform: scale(1.02);
 }
 
 /* Botão de fechar */
 .fechar-btn {
   background: none;
   border: none;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   color: #888;
   float: right;
   cursor: pointer;
@@ -165,8 +122,16 @@ button:active {
   color: #333;
 }
 
-#formularioInsert.hidden {
-  display: none;
+/* Animação */
+@keyframes fadeSlideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .hidden {
