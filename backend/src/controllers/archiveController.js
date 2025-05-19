@@ -32,9 +32,9 @@ exports.get = async (req, res) => {
 
 exports.delete = async (req, res) => {
   try {
-    const processNumber = req.params.Number;
+    const { id } = req.params;
 
-    const process = await archiveServices.deleteProcess(processNumber);
+    const process = await archiveServices.deleteProcess(id);
 
     return res.status(200).json(process);
   }

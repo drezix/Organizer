@@ -29,15 +29,11 @@ exports.getProcess = async (Number) => {
   return await archiveModel.findOne({ Number })
 }
 
-exports.deleteProcess = async (Number) => {	
-  if (!Number) {
+exports.deleteProcess = async (id) => {	
+  if (!id) {
     throw new Error('Número incorreto ou não existe');
   }
-  const process = await archiveModel.findOneAndDelete(
-    {
-      Number
-    }
-  );
+  const process = await archiveModel.findByIdAndDelete(id);
   if (!process) {
     throw new Error('Processo não encontrado');
   }
