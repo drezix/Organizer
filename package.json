@@ -1,0 +1,25 @@
+{
+  "name": "organizer",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start:backend": "nodemon -e js backend/src/bin/www",
+    "start:frontend": "cd frontend && npm start",
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drezix/Organizer.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/drezix/Organizer/issues"
+  },
+  "homepage": "https://github.com/drezix/Organizer#readme",
+  "description": "",
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
