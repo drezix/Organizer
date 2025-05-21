@@ -1,66 +1,102 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Organizador de Processos</title>
-  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/main.css" />
 </head>
 <body>
   <div class="container">
     <h1>Bem-vindo ao Organizador de Processos</h1>
-    
+
     <div class="search-container">
-      <input type="text" id="searchNumber" placeholder="Número do processo para pesquisar">
+      <input type="text" id="searchNumber" placeholder="Número do processo para pesquisar" />
       <button onclick="pesquisar()">🔍 Pesquisar</button>
+      <div id="searchError" style="color: red; margin-top: 8px; font-weight: bold; display: none;"></div>
     </div>
 
-    <div id="formularioGet" class="hidden">
-      <button class="fechar-btn" onclick="fecharGet()">✖</button>
-      <h2>Detalhes do Processo</h2>
-      <input type="text" id="getNumber" placeholder="Número" readonly>
-      <input type="text" id="getName" placeholder="Nome" readonly>
-      <input type="text" id="getDescricao" placeholder="Descrição" readonly>
-      <input type="text" id="getLocalGuardado" placeholder="Local Guardado" readonly>
-      <input type="text" id="getArea" placeholder="Área do Processo" readonly>
-      <input type="text" id="getStatus" placeholder="Status do Processo" readonly>
-      <input type="text" id="getBarCode" placeholder="Código de Barras" readonly>
+    <!-- Modal Detalhes do Processo -->
+    <div id="modalGet" class="modal hidden">
+      <div class="modal-content">
+        <button class="fechar-btn" onclick="fecharGet()">✖</button>
+        <h2>Detalhes do Processo</h2>
+        <input type="text" id="getNumber" placeholder="Número" readonly />
+        <input type="text" id="getName" placeholder="Nome" readonly />
+        <input type="text" id="getDescricao" placeholder="Descrição" readonly />
+        <input type="text" id="getLocalGuardado" placeholder="Local Guardado" readonly />
+        <input type="text" id="getArea" placeholder="Área do Processo" readonly />
+        <input type="text" id="getStatus" placeholder="Status do Processo" readonly />
+        <input type="text" id="getBarCode" placeholder="Código de Barras" readonly />
 
-      <input type="hidden" id="getId">
-      <button onclick="updateFormulario()">Atualizar</button>
+        <input type="hidden" id="getId" />
 
-      <div id="formularioUpdate" class="hidden">
-        <button class="fechar-btn" onclick="fecharUpdate()">✖</button>
-        <h2>Atualizar Processo</h2>
-        <input type="text" id="updateNumber" placeholder="Número">
-        <input type="text" id="updateName" placeholder="Nome">
-        <input type="text" id="updateDescricao" placeholder="Descrição">
-        <input type="text" id="updateLocalGuardado" placeholder="Local Guardado">
-        <input type="text" id="updateArea" placeholder="Área do Processo">
-        <input type="text" id="updateStatus" placeholder="Status do Processo">
-        <input type="text" id="updateBarCode" placeholder="Código de Barras">
-        <button onclick="atualizar()">Atualizar</button>
+        <div class="button-group">
+          <button onclick="updateFormulario()">Atualizar</button>
+          <button onclick="deletar()">Deletar</button>
+        </div>
       </div>
-
-      <button onclick="deletar()">Deletar</button>
-      
     </div>
-    <br>
+
+    <br />
 
     <button onclick="insertFormulario()">Inserir novo processo</button>
 
-    <div id="formularioInsert" class="hidden">
-      <button class="fechar-btn" onclick="fecharInsert()">✖</button>
-      <h2>Detalhes do Processo</h2>
-      <input type="text" id="insertNumber" placeholder="Número">
-      <input type="text" id="insertName" placeholder="Nome">
-      <input type="text" id="insertDescricao" placeholder="Descrição">
-      <input type="text" id="insertLocalGuardado" placeholder="Local Guardado">
-      <input type="text" id="insertArea" placeholder="Área do Processo">
-      <input type="text" id="insertStatus" placeholder="Status do Processo">
-      <input type="text" id="insertBarCode" placeholder="Código de Barras">
-      <button onclick="enviar()">Enviar</button>
+    <!-- Modal Inserir -->
+    <div id="modalInsert" class="modal hidden">
+      <div class="modal-content">
+        <button class="fechar-btn" onclick="fecharInsert()">✖</button>
+        <h2>Detalhes do Processo</h2>
+        <input type="text" id="insertNumber" placeholder="Número" />
+        <input type="text" id="insertName" placeholder="Nome" />
+        <input type="text" id="insertDescricao" placeholder="Descrição" />
+        <input type="text" id="insertLocalGuardado" placeholder="Local Guardado" />
+
+        <select id="insertArea" >
+          <option value="" disabled selected>Selecione a Área do Processo</option>
+          <option value="Trabalhista">Trabalhista</option>
+          <option value="Previdenciário">Previdenciário</option>
+        </select>
+
+        <input type="text" id="insertStatus" placeholder="Status do Processo" />
+        <input type="text" id="insertBarCode" placeholder="Código de Barras" />
+        <button onclick="enviar()">Enviar</button>
+      </div>
     </div>
+
+    <!-- Modal Atualizar -->
+    <div id="modalUpdate" class="modal hidden">
+      <div class="modal-content">
+        <button class="fechar-btn" onclick="fecharUpdate()">✖</button>
+        <h2>Atualizar Processo</h2>
+        <input type="text" id="updateNumber" placeholder="Número" />
+        <input type="text" id="updateName" placeholder="Nome" />
+        <input type="text" id="updateDescricao" placeholder="Descrição" />
+        <input type="text" id="updateLocalGuardado" placeholder="Local Guardado" />
+
+        <select id="updateArea" >
+          <option value="" disabled>Selecione a Área do Processo</option>
+          <option value="Trabalhista">Trabalhista</option>
+          <option value="Previdenciário">Previdenciário</option>
+        </select>
+
+        <input type="text" id="updateStatus" placeholder="Status do Processo" />
+        <input type="text" id="updateBarCode" placeholder="Código de Barras" />
+        <button onclick="atualizar()">Atualizar</button>
+      </div>
+    </div>
+
+    <!-- Modal Confirmar Delete -->
+    <div id="modalConfirmDelete" class="modal hidden">
+      <div class="modal-content" style="text-align: center;">
+        <p>Deseja excluir o processo?</p>
+        <div class="button-group">
+          <button onclick="confirmarDelete()">Sim</button>
+          <button onclick="cancelarDelete()" class="cancela">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="renderer.js"></script>
 </body>

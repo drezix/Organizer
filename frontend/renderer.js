@@ -1,48 +1,103 @@
+let idParaDeletar = null;  // Variável global para armazenar o id do processo que será deletado
+
+// ---------- MODAL INSERIR ----------
 function insertFormulario() {
-  const form = document.getElementById('formularioInsert');
-  form.classList.remove('hidden'); // tira a classe que esconde
-  form.classList.add('show');      // aplica a animação
-}
+  const modal = document.getElementById('modalInsert');
+  modal.classList.remove('hidden');
+  modal.classList.add('show');
 
-function getFormulario() {
-  const form = document.getElementById('formularioGet');
-  form.classList.remove('hidden');
-  form.classList.add('show');
-}
-
-function updateFormulario() {
-  const id = document.getElementById('getId').value;
-  console.log('atualizando id =', id);
-
-  // ✅ copia os valores
-  ['Number','Name','Descricao','LocalGuardado','Area','Status','BarCode']
-    .forEach(field => {
-      document.getElementById('update'+field)
-        .value = document.getElementById('get'+field).value;
-    });
-
-  const form = document.getElementById('formularioUpdate');
-  form.classList.remove('hidden');
-  form.classList.add('show');
+  const inputNumber = document.getElementById('insertNumber');
+  if (inputNumber) inputNumber.focus();
 }
 
 function fecharInsert() {
-  const form = document.getElementById('formularioInsert');
-  form.classList.remove('show');
-  form.classList.add('hidden');
+  const modal = document.getElementById('modalInsert');
+  modal.classList.remove('show');
+  modal.classList.add('hidden');
 }
 
-function fecharGet() {
-  const form = document.getElementById('formularioGet');
-  form.classList.remove('show');
-  form.classList.add('hidden');
+// ---------- MODAL ATUALIZAR ----------
+function updateFormulario() {
+  const id = document.getElementById('getId').value;
+
+  ['Number','Name','Descricao','LocalGuardado','Status','BarCode']
+    .forEach(field => {
+      document.getElementById('update'+field).value = document.getElementById('get'+field).value;
+    });
+
+  const areaValue = document.getElementById('getArea').value;
+  const updateAreaSelect = document.getElementById('updateArea');
+  if (updateAreaSelect) {
+    updateAreaSelect.value = areaValue || "";
+  }
+
+  const modal = document.getElementById('modalUpdate');
+  modal.classList.remove('hidden');
+  modal.classList.add('show');
+
+  const inputNumber = document.getElementById('updateNumber');
+  if (inputNumber) inputNumber.focus();
 }
 
 function fecharUpdate() {
-  const form = document.getElementById('formularioUpdate');
-  form.classList.remove('show');
-  form.classList.add('hidden');
+  const modal = document.getElementById('modalUpdate');
+  modal.classList.remove('show');
+  modal.classList.add('hidden');
 }
+
+// ---------- MODAL VISUALIZAR (BUSCA) ----------
+async function pesquisar() {
+  const number = document.getElementById('searchNumber').value.trim();
+  const errorDiv = document.getElementById('searchError');
+
+  errorDiv.style.display = 'none';
+  errorDiv.textContent = '';
+
+  if (!number) {
+    errorDiv.textContent = 'Por favor, insira um número de processo para pesquisar.';
+    errorDiv.style.display = 'block';
+    return;
+  }
+
+  try {
+    const response = await fetch(`http://localhost:5000/archive/get/${number}`);
+
+    if (!response.ok) {
+      errorDiv.textContent = 'Número do processo não encontrado.';
+      errorDiv.style.display = 'block';
+      return;
+    }
+
+    const result = await response.json();
+
+    document.getElementById('getNumber').value = result.Number;
+    document.getElementById('getName').value = result.Name;
+    document.getElementById('getDescricao').value = result.Descricao;
+    document.getElementById('getLocalGuardado').value = result.LocalGuardado;
+    document.getElementById('getArea').value = result.Area;
+    document.getElementById('getStatus').value = result.Status;
+    document.getElementById('getBarCode').value = result.BarCode;
+
+    document.getElementById('getId').value = result._id;
+
+    const modal = document.getElementById('modalGet');
+    modal.classList.remove('hidden');
+    modal.classList.add('show');
+
+  } catch (error) {
+    console.error('Erro ao pesquisar processo:', error);
+    errorDiv.textContent = 'Ocorreu um erro ao tentar buscar o processo.';
+    errorDiv.style.display = 'block';
+  }
+}
+
+function fecharGet() {
+  const modal = document.getElementById('modalGet');
+  modal.classList.remove('show');
+  modal.classList.add('hidden');
+}
+
+// ---------- FUNÇÕES CRUD ----------
 
 async function enviar() {
   const Number = document.getElementById('insertNumber').value;
@@ -53,15 +108,7 @@ async function enviar() {
   const Status = document.getElementById('insertStatus').value;
   const BarCode = document.getElementById('insertBarCode').value;
 
-  const body = {
-    Number: Number,
-    Name: Name,
-    Descricao: Descricao,
-    LocalGuardado: LocalGuardado,
-    Area: Area,
-    Status: Status,
-    BarCode: BarCode
-  };
+  const body = { Number, Name, Descricao, LocalGuardado, Area, Status, BarCode };
 
   const response = await fetch('http://localhost:5000/archive/insert', {
     method: 'POST',
@@ -71,31 +118,12 @@ async function enviar() {
 
   const result = await response.json();
   console.log(result);
-}
-
-async function pesquisar() {
-  const number = document.getElementById('searchNumber').value;
-  const response = await fetch(`http://localhost:5000/archive/get/${number}`);
-  const result = await response.json();
-
-  document.getElementById('getNumber').value = result.Number;
-  document.getElementById('getName').value = result.Name;
-  document.getElementById('getDescricao').value = result.Descricao;
-  document.getElementById('getLocalGuardado').value = result.LocalGuardado;
-  document.getElementById('getArea').value = result.Area;
-  document.getElementById('getStatus').value = result.Status;
-  document.getElementById('getBarCode').value = result.BarCode;
-
-  const id = document.getElementById('getId').value = result._id;
-  console.log(id);
-  console.log(result);
-  getFormulario();
+  fecharInsert();
 }
 
 async function atualizar() {
-  const id = document.getElementById('getId').value;  // pega o ObjectId correto
+  const id = document.getElementById('getId').value;
 
-  // vai ler os campos editáveis
   const Number       = document.getElementById('updateNumber').value;
   const Name         = document.getElementById('updateName').value;
   const Descricao    = document.getElementById('updateDescricao').value;
@@ -111,18 +139,72 @@ async function atualizar() {
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify(body)
   });
+
   const result = await response.json();
   console.log(result);
+  fecharUpdate();
 }
 
-async function deletar() {
-  const id = document.getElementById('getId').value;
+function deletar() {
+  idParaDeletar = document.getElementById('getId').value;
+  if (!idParaDeletar) {
+    alert('Nenhum processo selecionado para deletar.');
+    return;
+  }
 
-  const response = await fetch(`http://localhost:5000/archive/delete/${id}`, {
+  const modal = document.getElementById('modalConfirmDelete');
+  modal.classList.remove('hidden');
+  modal.classList.add('show');
+}
+
+async function confirmarDelete() {
+  if (!idParaDeletar) return;
+
+  const response = await fetch(`http://localhost:5000/archive/delete/${idParaDeletar}`, {
     method: 'DELETE',
-    headers: {'Content-Type': 'application/json'}
+    headers: { 'Content-Type': 'application/json' }
   });
+
   const result = await response.json();
   console.log(result);
+
+  const modalConfirm = document.getElementById('modalConfirmDelete');
+  modalConfirm.classList.remove('show');
+  modalConfirm.classList.add('hidden');
+
+  fecharGet();
+  limparCamposGet();
+
+  idParaDeletar = null;
 }
 
+function cancelarDelete() {
+  const modalConfirm = document.getElementById('modalConfirmDelete');
+  modalConfirm.classList.remove('show');
+  modalConfirm.classList.add('hidden');
+  idParaDeletar = null;
+}
+
+function limparCamposGet() {
+  ['Number', 'Name', 'Descricao', 'LocalGuardado', 'Area', 'Status', 'BarCode', 'Id'].forEach(field => {
+    const el = document.getElementById('get' + field);
+    if (el) el.value = '';
+  });
+}
+
+// Fecha modais ao clicar fora do conteúdo modal
+document.getElementById('modalInsert').addEventListener('click', e => {
+  if(e.target.id === 'modalInsert') fecharInsert();
+});
+
+document.getElementById('modalUpdate').addEventListener('click', e => {
+  if(e.target.id === 'modalUpdate') fecharUpdate();
+});
+
+document.getElementById('modalGet').addEventListener('click', e => {
+  if(e.target.id === 'modalGet') fecharGet();
+});
+
+document.getElementById('modalConfirmDelete').addEventListener('click', e => {
+  if(e.target.id === 'modalConfirmDelete') cancelarDelete();
+});

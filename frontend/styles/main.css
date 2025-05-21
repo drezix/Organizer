@@ -7,7 +7,7 @@
 
 body {
   font-family: 'Roboto', sans-serif;
-  background-color: #F5F6F8;
+  background-color: #f5f6f8;
   color: #333;
   line-height: 1.6;
   min-height: 100vh;
@@ -26,11 +26,27 @@ body > * {
 /* Título */
 h1 {
   font-size: 2rem;
-  color: #2C3E50;
+  color: #2c3e50;
   margin-bottom: 24px;
   text-align: center;
   border-bottom: 1px solid #c69c58;
   padding-bottom: 10px;
+}
+
+/* Search container */
+.search-container {
+  position: relative;
+}
+
+/* Mensagem de erro da busca */
+#searchError {
+  color: red;
+  margin-top: 8px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  display: none;
+  padding-top: 5px;
+  text-align: center;
 }
 
 /* Botões */
@@ -57,40 +73,35 @@ button:active {
   transform: scale(0.98);
 }
 
-/* Formulários */
-#formularioInsert,
-#formularioGet,
-#formularioUpdate {
+/* Formulários padrão (não modais) */
+#formularioGet {
   background-color: #fff;
   padding: 30px;
   border-radius: 10px;
   border: 1px solid #c69c58;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  margin: 0 auto;
+  margin: 0 auto 20px auto;
   opacity: 0;
   transform: translateY(-10px);
   pointer-events: none;
   transition: all 0.3s ease;
 }
 
-#formularioInsert.show,
-#formularioGet.show,
-#formularioUpdate.show {
+#formularioGet.show {
   opacity: 1;
   transform: translateY(0);
   pointer-events: all;
 }
 
-#formularioInsert.hidden,
-#formularioGet.hidden,
-#formularioUpdate.hidden {
+#formularioGet.hidden {
   opacity: 0;
   transform: translateY(-10px);
   pointer-events: none;
 }
 
-/* Inputs */
-input {
+/* Inputs e selects padrão */
+input,
+select {
   width: 100%;
   padding: 12px;
   margin: 10px 0;
@@ -99,15 +110,23 @@ input {
   font-size: 1rem;
   background-color: #f9f9f9;
   transition: border 0.3s ease, transform 0.2s ease;
+  font-family: 'Roboto', sans-serif;
+  box-sizing: border-box;
 }
 
-input:focus {
+input:focus,
+select:focus {
   border: 1px solid #c69c58;
   outline: none;
   transform: scale(1.02);
 }
 
-/* Botão de fechar */
+/* Placeholder de select desabilitado */
+select option[disabled] {
+  color: #999;
+}
+
+/* Botão de fechar padrão */
 .fechar-btn {
   background: none;
   border: none;
@@ -115,7 +134,7 @@ input:focus {
   color: #888;
   float: right;
   cursor: pointer;
-  margin-bottom: 10px;
+  margin-bottom: 100px;
 }
 
 .fechar-btn:hover {
@@ -134,6 +153,73 @@ input:focus {
   }
 }
 
+/* Ocultar */
 .hidden {
-  display: none;
+  display: none !important;
 }
+
+/* === MODAL ESTILOS === */
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.modal.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal-content {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 30px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  position: relative;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.modal-content .fechar-btn {
+  position: absolute;
+  top: 2px;
+  right: 15px;
+  font-size: 1.5rem;
+  color: #888;
+  cursor: pointer;
+}
+
+.modal-content .fechar-btn:hover {
+  color: #333;
+}
+
+.cancela{
+  color: #fff;
+  background-color: #999;
+}
+/* Agrupa botões lado a lado dentro dos modais */
+.modal-content .button-group {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Espaço entre os botões */
+  margin-top: 20px;
+}
+
+/* Para os botões dentro da button-group, mantém largura automática */
+.modal-content .button-group button {
+  flex: none;}
