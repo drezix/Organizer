@@ -20,7 +20,7 @@ function fecharInsert() {
 function updateFormulario() {
   const id = document.getElementById('getId').value;
 
-  ['Number','Name','Descricao','LocalGuardado','Status','BarCode']
+  ['Number','Name','Descricao','Status','BarCode']
     .forEach(field => {
       document.getElementById('update'+field).value = document.getElementById('get'+field).value;
     });
@@ -103,12 +103,11 @@ async function enviar() {
   const Number = document.getElementById('insertNumber').value;
   const Name = document.getElementById('insertName').value;
   const Descricao = document.getElementById('insertDescricao').value;
-  const LocalGuardado = document.getElementById('insertLocalGuardado').value;
   const Area = document.getElementById('insertArea').value;
   const Status = document.getElementById('insertStatus').value;
   const BarCode = document.getElementById('insertBarCode').value;
 
-  const body = { Number, Name, Descricao, LocalGuardado, Area, Status, BarCode };
+  const body = { Number, Name, Descricao, Area, Status, BarCode };
 
   const response = await fetch('http://localhost:5000/archive/insert', {
     method: 'POST',
@@ -127,12 +126,11 @@ async function atualizar() {
   const Number       = document.getElementById('updateNumber').value;
   const Name         = document.getElementById('updateName').value;
   const Descricao    = document.getElementById('updateDescricao').value;
-  const LocalGuardado= document.getElementById('updateLocalGuardado').value;
   const Area         = document.getElementById('updateArea').value;
   const Status       = document.getElementById('updateStatus').value;
   const BarCode      = document.getElementById('updateBarCode').value;
 
-  const body = { Number, Name, Descricao, LocalGuardado, Area, Status, BarCode };
+  const body = { Number, Name, Descricao, Area, Status, BarCode };
 
   const response = await fetch(`http://localhost:5000/archive/update/${id}`, {
     method: 'PUT',

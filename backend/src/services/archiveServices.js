@@ -1,7 +1,7 @@
 const archiveModel = require('../models/archiveModel');
 
 exports.registerProcess = async (data) => {
-  const { Number, Name, Descricao, LocalGuardado, Area, Status, BarCode } = data;
+  const { Number, Name, Descricao, Area, Status, BarCode } = data;
   const existingProcess = await archiveModel.findOne({
     Number
   });
@@ -13,7 +13,6 @@ exports.registerProcess = async (data) => {
     Number,
     Name,
     Descricao,
-    LocalGuardado,
     Area,
     Status,
     BarCode
@@ -42,11 +41,11 @@ exports.deleteProcess = async (id) => {
 }
 
 exports.updateProcess = async (id, data) => {
-  const { Number, Name, Descricao, LocalGuardado, Area, Status, BarCode } = data;
+  const { Number, Name, Descricao, Area, Status, BarCode } = data;
 
   const updatedProcess = await archiveModel.findByIdAndUpdate(
     id,
-    { Number, Name, Descricao, LocalGuardado, Area, Status, BarCode },
+    { Number, Name, Descricao, Area, Status, BarCode },
     { new: true } // Retorna o documento atualizado
   );
 
