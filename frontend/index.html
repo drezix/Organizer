@@ -10,11 +10,26 @@
   <div class="container">
     <h1>Bem-vindo ao Organizador de Processos</h1>
 
+    <!-- Search + Area Filter Inline -->
     <div class="search-container">
-      <input type="text" id="searchNumber" placeholder="Número do processo para pesquisar" />
+      <input
+        type="text"
+        id="searchTerm"
+        placeholder="Pesquisar processo (número, nome, etc)"
+      />
+      <select id="searchArea">
+        <option value="">Todas as Áreas</option>
+        <option value="Trabalhista">Trabalhista</option>
+        <option value="Previdenciário">Previdenciário</option>
+      </select>
       <button onclick="pesquisar()">🔍 Pesquisar</button>
-      <div id="searchError" style="color: red; margin-top: 8px; font-weight: bold; display: none;"></div>
     </div>
+
+    <!-- Error Message -->
+    <div id="searchError" class="search-error"></div>
+
+    <!-- Cards Container -->
+    <div id="cardsContainer" class="cards-container"></div>
 
     <!-- Modal Detalhes do Processo -->
     <div id="modalGet" class="modal hidden">
@@ -28,9 +43,7 @@
         <input type="text" id="getArea" placeholder="Área do Processo" readonly />
         <input type="text" id="getStatus" placeholder="Status do Processo" readonly />
         <input type="text" id="getBarCode" placeholder="Código de Barras" readonly />
-
         <input type="hidden" id="getId" />
-
         <div class="button-group">
           <button onclick="updateFormulario()">Atualizar</button>
           <button onclick="deletar()">Deletar</button>
@@ -38,9 +51,8 @@
       </div>
     </div>
 
-    <br />
-
-    <button onclick="insertFormulario()">Inserir novo processo</button>
+    <!-- Insert Button -->
+    <button onclick="insertFormulario()" class="insert-btn">Inserir novo processo</button>
 
     <!-- Modal Inserir -->
     <div id="modalInsert" class="modal hidden">

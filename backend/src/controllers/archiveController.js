@@ -16,19 +16,28 @@ exports.insert = async (req, res) => {
   }
 }
 
-exports.get = async (req, res) => {
+exports.search = async (req, res) => {
   try {
-    const processNumber = req.params.Number;
+    // req.query pode ter Number, Name, Area, Status, ...
+    const filters = req.query;
+    const results = await archiveServices.searchProcesses(filters);
+    return res.status(200).json(results);
+  } catch (error) {
+    console.error('Error searching processes:', error);
+    return res.status(500).json({ message: 'Erro ao buscar processos', error: error.message });
+  }
+};
 
-    const process = await archiveServices.getProcess(processNumber);
-
+exports.getById = async (req, res) => {
+  try {
+    const process = await archiveServices.getProcessById(req.params.id);
+    if (!process) return res.status(404).json({ message: 'Processo não encontrado' });
     return res.status(200).json(process);
+  } catch (error) {
+    console.error('Error getting process by id:', error);
+    return res.status(500).json({ message: 'Erro ao obter processo', error: error.message });
   }
-  catch (error) {
-    console.error('Error getting process:', error);
-    return res.status(500).json({ message: 'Error getting process', error: error.message });
-  }
-}
+};
 
 exports.delete = async (req, res) => {
   try {

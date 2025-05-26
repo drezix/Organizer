@@ -21,24 +21,23 @@ exports.registerProcess = async (data) => {
   return await newProcess.save();
 }
 
-exports.getProcess = async (Number) => {
-  if (!Number) {
-    throw new Error('Número incorreto ou não existe');
-  }
-  return await archiveModel.findOne({ Number })
-}
+exports.searchProcesses = async (filters = {}) => {
+  // Remove campos falsy (undefined, '') pra não poluir a query
+  const cleanFilters = Object.entries(filters)
+    .filter(([_, v]) => v !== undefined && v !== '')
+    .reduce((obj, [k, v]) => {
+      // se for Number, converte pra Number
+      obj[k] = k === 'Number' ? Number(v) : v;
+      return obj;
+    }, {});
 
-exports.deleteProcess = async (id) => {	
-  if (!id) {
-    throw new Error('Número incorreto ou não existe');
-  }
-  const process = await archiveModel.findByIdAndDelete(id);
-  if (!process) {
-    throw new Error('Processo não encontrado');
-  }
+  return await archiveModel.find(cleanFilters).exec();
+};
 
-  return process;
-}
+exports.getProcessById = async (id) => {
+  if (!id) throw new Error('ID incorreto ou não existe');
+  return await archiveModel.findById(id).exec();
+};
 
 exports.updateProcess = async (id, data) => {
   const { Number, Name, Descricao, Area, Status, BarCode } = data;
