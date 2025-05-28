@@ -22,7 +22,7 @@
         <option value="Trabalhista">Trabalhista</option>
         <option value="Previdenciário">Previdenciário</option>
       </select>
-      <button onclick="pesquisar()">🔍 Pesquisar</button>
+      <button id="btnPesquisar">🔍 Pesquisar</button>
     </div>
 
     <!-- Error Message -->
@@ -34,7 +34,7 @@
     <!-- Modal Detalhes do Processo -->
     <div id="modalGet" class="modal hidden">
       <div class="modal-content">
-        <button class="fechar-btn" onclick="fecharGet()">✖</button>
+        <button class="fechar-btn" id="btnFecharGet">✖</button>
         <h2>Detalhes do Processo</h2>
         <input type="text" id="getNumber" placeholder="Número" readonly />
         <input type="text" id="getName" placeholder="Nome" readonly />
@@ -45,19 +45,19 @@
         <input type="text" id="getBarCode" placeholder="Código de Barras" readonly />
         <input type="hidden" id="getId" />
         <div class="button-group">
-          <button onclick="updateFormulario()">Atualizar</button>
-          <button onclick="deletar()">Deletar</button>
+          <button id="btnUpdate">Atualizar</button>
+          <button id="btnOpenDelete">Deletar</button>
         </div>
       </div>
     </div>
 
     <!-- Insert Button -->
-    <button onclick="insertFormulario()" class="insert-btn">Inserir novo processo</button>
+    <button id="btnInsert" class="insert-btn">Inserir novo processo</button>
 
     <!-- Modal Inserir -->
     <div id="modalInsert" class="modal hidden">
       <div class="modal-content">
-        <button class="fechar-btn" onclick="fecharInsert()">✖</button>
+        <button class="fechar-btn" id="btnFecharInsert">✖</button>
         <h2>Detalhes do Processo</h2>
         <input type="text" id="insertNumber" placeholder="Número" />
         <input type="text" id="insertName" placeholder="Nome" />
@@ -71,14 +71,14 @@
 
         <input type="text" id="insertStatus" placeholder="Status do Processo" />
         <input type="text" id="insertBarCode" placeholder="Código de Barras" />
-        <button onclick="enviar()">Enviar</button>
+        <button id="btnEnviar">Enviar</button>
       </div>
     </div>
 
     <!-- Modal Atualizar -->
     <div id="modalUpdate" class="modal hidden">
       <div class="modal-content">
-        <button class="fechar-btn" onclick="fecharUpdate()">✖</button>
+        <button class="fechar-btn" id="btnFecharUpdate">✖</button>
         <h2>Atualizar Processo</h2>
         <input type="text" id="updateNumber" placeholder="Número" />
         <input type="text" id="updateName" placeholder="Nome" />
@@ -92,7 +92,7 @@
 
         <input type="text" id="updateStatus" placeholder="Status do Processo" />
         <input type="text" id="updateBarCode" placeholder="Código de Barras" />
-        <button onclick="atualizar()">Atualizar</button>
+        <button id="btnAtualizar">Atualizar</button>
       </div>
     </div>
 
@@ -101,13 +101,13 @@
       <div class="modal-content" style="text-align: center;">
         <p>Deseja excluir o processo?</p>
         <div class="button-group">
-          <button onclick="confirmarDelete()">Sim</button>
-          <button onclick="cancelarDelete()" class="cancela">Cancelar</button>
+          <button id="btnConfirmYes">Sim</button>
+          <button id="btnConfirmNo" class="cancela">Cancelar</button>
         </div>
       </div>
     </div>
   </div>
 
-  <script src="renderer.js"></script>
+  <script type="module" src="renderer.js"></script>
 </body>
 </html>
