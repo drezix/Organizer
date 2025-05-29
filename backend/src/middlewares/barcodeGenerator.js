@@ -1,10 +1,9 @@
 function gerarCodigoBoletoFake(valor = 0, vencimento = '2025-12-31') {
-  const banco = '001'; // Código fictício de banco
-  const moeda = '9'; // Real
-  const fatorVenc = calcularFatorVencimento(vencimento); // 4 dígitos
-  const valorFormatado = valor.toFixed(2).replace('.', '').padStart(10, '0'); // 10 dígitos
+  const banco = '001';
+  const moeda = '9';
+  const fatorVenc = calcularFatorVencimento(vencimento);
+  const valorFormatado = valor.toFixed(2).replace('.', '').padStart(10, '0');
 
-  // Campo livre fake (25 dígitos aleatórios mas formatados)
   const campoLivre = gerarCampoLivreFake(25);
 
   const base = banco + moeda + fatorVenc + valorFormatado + campoLivre;

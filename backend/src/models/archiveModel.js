@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 const { setLocalGuardado } = require('../middlewares/slotFinder');
-const { gerarCodigoBoletoFake } = require('../middlewares/barcodeGenerator');
 
 const archiveSchema = new Schema({
   Number: {
@@ -37,25 +36,17 @@ const archiveSchema = new Schema({
 })
 
 // ao validar (inserção ou alteração de Name)
-// Unificado: gerar LocalGuardado + gerar código de barras se necessário
-archiveSchema.pre('validate', async function (next) {
-  if (this.isModified('Name')) {
-    await setLocalGuardado(this, this.Name);
-  }
-
-  // Só gera se ainda não tiver
-  if (!this.BarCode) {
-    const hoje = new Date().toISOString().split('T')[0]; // Formato YYYY-MM-DD
-    this.BarCode = gerarCodigoBoletoFake(this.Number || 0, hoje);
-  }
-
+archiveSchema.pre('validate', async function(next) {
+  if (!this.isModified('Name')) return next();
+  await setLocalGuardado(this, this.Name);
   next();
 });
 
-// Atualização por findOneAndUpdate
-archiveSchema.pre('findOneAndUpdate', async function (next) {
+// ao atualizar via findOneAndUpdate
+archiveSchema.pre('findOneAndUpdate', async function(next) {
   const update = this.getUpdate();
   if (update.Name) {
+    // cria um doc temporário para atribuir LocalGuardado
     const temp = {};
     await setLocalGuardado(temp, update.Name);
     update.LocalGuardado = temp.LocalGuardado;

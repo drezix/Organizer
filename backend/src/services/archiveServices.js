@@ -14,7 +14,8 @@ exports.registerProcess = async (data) => {
     Name,
     Descricao,
     Area,
-    Status
+    Status,
+    BarCode
   });
 
   return await newProcess.save();
