@@ -1,5 +1,5 @@
 export function updateFormulario() {
-  ['Number', 'Name', 'Descricao', 'Status', 'BarCode', 'Area'].forEach(field => {
+  ['Number', 'Name', 'Descricao', 'Status', 'Area'].forEach(field => {
     document.getElementById('update' + field).value =
       document.getElementById('get' + field).value;
   });

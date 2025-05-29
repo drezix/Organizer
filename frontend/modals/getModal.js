@@ -8,6 +8,18 @@ export function abrirModal(proc) {
   document.getElementById('getBarCode').value = proc.BarCode;
   document.getElementById('getId').value = proc._id;
 
+  const svg = document.getElementById('visualBarCode');
+  svg.innerHTML = '';
+
+  // renderiza o código de barras
+  JsBarcode(svg, proc.BarCode, {
+    format: "CODE128",
+    lineColor: "#000",
+    width: 2,
+    height: 80,
+    displayValue: true,
+  });
+
   const modal = document.getElementById('modalGet');
   modal.classList.remove('hidden');
   modal.classList.add('show');

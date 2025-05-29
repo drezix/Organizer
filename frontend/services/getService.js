@@ -33,8 +33,7 @@ export async function pesquisar() {
         numStr.includes(term) ||
         nameStr.includes(term) ||
         String(proc.Descricao).toLowerCase().includes(term) ||
-        String(proc.Status).toLowerCase().includes(term) ||
-        String(proc.BarCode).toLowerCase().includes(term);
+        String(proc.Status).toLowerCase().includes(term);
       const areaMatch = !areaFilter || proc.Area === areaFilter;
       return textMatch && areaMatch;
     });
@@ -49,9 +48,10 @@ export async function pesquisar() {
       const card = document.createElement('div');
       card.className = 'card';
       card.innerHTML = `
-        <h3>#${proc.Number} – ${proc.Name}</h3>
+        <h3>${proc.Number} <br> ${proc.Name}</h3>
         <p>Status: ${proc.Status}</p>
         <p>Área: ${proc.Area}</p>
+        <p>Código de barras: ${proc.BarCode}</p>
       `;
       card.addEventListener('click', () => abrirModal(proc));
       cardsContainer.appendChild(card);

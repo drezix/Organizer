@@ -8,7 +8,6 @@ export async function atualizar() {
     Descricao: document.getElementById('updateDescricao').value,
     Area: document.getElementById('updateArea').value,
     Status: document.getElementById('updateStatus').value,
-    BarCode: document.getElementById('updateBarCode').value,
   };
   const res = await fetch(
     `http://localhost:5000/archive/update/${id}`,

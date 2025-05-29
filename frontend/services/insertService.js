@@ -7,7 +7,6 @@ export async function enviar() {
     Descricao: document.getElementById('insertDescricao').value,
     Area: document.getElementById('insertArea').value,
     Status: document.getElementById('insertStatus').value,
-    BarCode: document.getElementById('insertBarCode').value,
   };
   const res = await fetch('http://localhost:5000/archive/insert', {
     method: 'POST',

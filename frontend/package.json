@@ -10,6 +10,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "electron": "^36.2.0"
+    "electron": "^36.2.0",
+    "jsbarcode": "^3.11.6"
   }
 }

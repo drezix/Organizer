@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Organizador de Processos</title>
-  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/main.css" /> 
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
 </head>
 <body>
   <div class="container">
@@ -58,6 +59,7 @@
         <input type="text" id="getArea" placeholder="Área do Processo" readonly />
         <input type="text" id="getStatus" placeholder="Status do Processo" readonly />
         <input type="text" id="getBarCode" placeholder="Código de Barras" readonly />
+        <svg id="visualBarCode"></svg>
         <input type="hidden" id="getId" />
         <div class="button-group">
           <button id="btnUpdate">Atualizar</button>
@@ -85,7 +87,6 @@
         </select>
 
         <input type="text" id="insertStatus" placeholder="Status do Processo" />
-        <input type="text" id="insertBarCode" placeholder="Código de Barras" />
         <button id="btnEnviar">Enviar</button>
       </div>
     </div>
@@ -106,7 +107,6 @@
         </select>
 
         <input type="text" id="updateStatus" placeholder="Status do Processo" />
-        <input type="text" id="updateBarCode" placeholder="Código de Barras" />
         <button id="btnAtualizar">Atualizar</button>
       </div>
     </div>
